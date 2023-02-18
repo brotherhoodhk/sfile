@@ -117,3 +117,18 @@ func SendContentToHost(coninfo string, content any, actionid int) {
 		fmt.Println("upload file success")
 	}
 }
+
+// clean the server target file
+func CleanFile(filename string) {
+	config := ParseList(siteconf)
+	value, ok := config["cloud"]
+	if !ok || !strings.ContainsRune(value, '@') {
+		fmt.Println("host not set")
+		return
+	}
+	cmd := &CommonCommand{Header: filename, Actionid: 3}
+	valarr := strings.Split(value, "@")
+	hostadd := valarr[len(valarr)-1]
+	url := fmt.Sprintf("ws://%v/cmdline", hostadd)
+	ConnectWithWebsocket(url, cmd)
+}

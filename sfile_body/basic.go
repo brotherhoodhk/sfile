@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -29,4 +31,29 @@ func Exist_File(path string) bool {
 		return false
 	}
 	return true
+}
+func (s *CommonCommand) todo(con *websocket.Conn, resp RemoteResponse) {
+senddata:
+	err := con.WriteJSON(s)
+	if err != nil {
+		fmt.Println("write json to websocket failed")
+		errorlog.Println(err)
+		os.Exit(-1)
+	}
+	err = con.ReadJSON(resp)
+	if err != nil {
+		//if data broken ,resend data
+		goto senddata
+	}
+	switch resp.GetStatus() {
+	case 200:
+		fmt.Println("task done")
+	case 400:
+		fmt.Println("task failed")
+	case 500:
+		goto senddata
+	}
+}
+func (s *Response) GetStatus() int {
+	return s.StatusCode
 }

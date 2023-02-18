@@ -55,6 +55,12 @@ func SfileStart(args []string) {
 			return
 		}
 		PullFile(args[1])
+	case "clean":
+		if len(args) < 2 {
+			Error()
+			return
+		}
+		CleanFile(args[1])
 	}
 
 }

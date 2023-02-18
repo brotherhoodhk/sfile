@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/gorilla/websocket"
 )
 
 func ParseList(path string) map[string]string {
@@ -45,31 +47,45 @@ func FormatList(origin map[string]string, path string) bool {
 }
 
 // 将文件储存至本地file system
-func SaveFile(filename string,content []byte) {
-	list:=ParseList(filemap)
-	if _,ok:=list[filename];!ok{
-		nowpath,err:=os.Getwd()
-		if err!=nil{
+func SaveFile(filename string, content []byte) {
+	list := ParseList(filemap)
+	if _, ok := list[filename]; !ok {
+		nowpath, err := os.Getwd()
+		if err != nil {
 			fmt.Println("get path error")
 			errorlog.Println(err)
 			os.Exit(-1)
 		}
-		fullpath:=nowpath+"/"+filename
-		list[filename]=fullpath
-		FormatList(list,filemap)
+		fullpath := nowpath + "/" + filename
+		list[filename] = fullpath
+		FormatList(list, filemap)
 	}
-	val:=list[filename]
-	f,err:=os.OpenFile(val,os.O_CREATE|os.O_TRUNC|os.O_WRONLY,0666)
-	if err!=nil{
+	val := list[filename]
+	f, err := os.OpenFile(val, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0666)
+	if err != nil {
 		fmt.Println("write error")
 		errorlog.Println(err)
 		f.Close()
 		os.Exit(-1)
 	}
-	_,err=f.Write(content)
-	if err!=nil{
+	_, err = f.Write(content)
+	if err != nil {
 		fmt.Println("write error")
 		errorlog.Println(err)
 	}
 	f.Close()
+}
+
+func ConnectWithWebsocket(url string, rmd RemoteMethod) {
+	dl := websocket.Dialer{}
+	ws, _, err := dl.Dial(url, nil)
+	if err != nil {
+		fmt.Println("connect to ", url, " failed")
+		errorlog.Println(err)
+		ws.Close()
+		return
+	}
+	defer ws.Close()
+	resp := new(Response)
+	rmd.todo(ws, resp)
 }

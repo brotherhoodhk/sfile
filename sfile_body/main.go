@@ -3,6 +3,7 @@ package sfile
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 const (
@@ -44,11 +45,19 @@ func SfileStart(args []string) {
 		}
 		RemoveFile(args[1])
 	case "upload":
-		if len(args) < 2 {
+		switch len(args) {
+		case 2:
+			UploadFile(args[1])
+		case 3:
+			if args[1] == "--private" {
+				if strings.ContainsRune(args[2], '/') {
+					uploadprivatefile(args[2])
+				}
+			}
+		default:
 			Error()
 			return
 		}
-		UploadFile(args[1])
 	case "pull":
 		if len(args) < 2 {
 			Error()
@@ -56,11 +65,30 @@ func SfileStart(args []string) {
 		}
 		PullFile(args[1])
 	case "clean":
+		switch len(args) {
+		case 2:
+			CleanFile(args[1])
+		case 3:
+			if args[1] == "--private" {
+				if strings.ContainsRune(args[2], '/') {
+					CommonAgreenment(args[2], 431)
+				} else {
+					fmt.Println("filename is not correct")
+				}
+			} else if args[1] == "-r" {
+				if strings.ContainsRune(args[2], '/') {
+					fmt.Println("your dirname is not correct")
+				} else {
+					CommonAgreenment(args[2], 43)
+				}
+			}
+		}
+	case "mkdir":
 		if len(args) < 2 {
 			Error()
 			return
 		}
-		CleanFile(args[1])
+		CommonAgreenment(args[1], 40)
 	}
 
 }

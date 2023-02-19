@@ -109,6 +109,9 @@ func SendContentToHost(coninfo string, content any, actionid int) {
 					case 400:
 						fmt.Println("cloud file system dont have this file")
 						os.Exit(1)
+					case 401:
+						fmt.Println("args are not correct")
+						os.Exit(1)
 					}
 				}
 			}
@@ -131,4 +134,59 @@ func CleanFile(filename string) {
 	hostadd := valarr[len(valarr)-1]
 	url := fmt.Sprintf("ws://%v/cmdline", hostadd)
 	ConnectWithWebsocket(url, cmd)
+}
+func uploadprivatefile(filehead string) {
+	filearr := strings.Split(filehead, "/")
+	if len(filearr) != 2 || len(filearr[0]) < 1 || len(filearr[1]) < 1 {
+		//命名不符合 dirname/filename规范
+		return
+	}
+	filelist := ParseList(filemap)
+	if _, ok := filelist[filearr[1]]; !ok {
+		fmt.Println(filearr[1], " dont exist in file system")
+		return
+	}
+	f, err := os.OpenFile(filelist[filearr[1]], os.O_RDONLY, 0666)
+	if err != nil {
+		fmt.Println("can open file ", filearr[1])
+		errorlog.Println(err)
+		return
+	}
+	var buff = make([]byte, wrbuffsize)
+	lang, err := f.Read(buff)
+	if err != nil {
+		fmt.Println("cant read file from memory")
+		errorlog.Println(err)
+		return
+	}
+	CommonFileUpload(filehead, buff[:lang], 41)
+
+}
+
+// 通用指令协议
+func CommonAgreenment(bcmd string, act int) {
+	config := ParseList(siteconf)
+	value, ok := config["cloud"]
+	if !ok || !strings.ContainsRune(value, '@') {
+		fmt.Println("host not set")
+		return
+	}
+	cmd := &CommonCommand{Header: bcmd, Actionid: act}
+	valarr := strings.Split(value, "@")
+	hostadd := valarr[len(valarr)-1]
+	url := fmt.Sprintf("ws://%v/cmdline", hostadd)
+	ConnectWithWebsocket(url, cmd)
+}
+
+// 通用文件传输协议
+func CommonFileUpload(heads string, content []byte, act int) {
+	sendmsg := &SendMsg{MessBox: heads, Content: content, Action: act}
+	//配置连接讯息
+	config := ParseList(siteconf)
+	value, ok := config["cloud"]
+	if !ok || !strings.ContainsRune(value, '@') {
+		fmt.Println("host not set")
+		return
+	}
+	SendContentToHost(value, sendmsg, act)
 }

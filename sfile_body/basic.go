@@ -50,6 +50,8 @@ senddata:
 		fmt.Println("task done")
 	case 400:
 		fmt.Println("task failed")
+	case 401:
+		fmt.Println("args not correct")
 	case 500:
 		goto senddata
 	}

@@ -190,3 +190,69 @@ func CommonFileUpload(heads string, content []byte, act int) {
 	}
 	SendContentToHost(value, sendmsg, act)
 }
+func CommonExchangeFile(heads string, act int) {
+	cmd := &CommonCommand{Header: heads, Actionid: act}
+	//配置连接讯息
+	config := ParseList(siteconf)
+	value, ok := config["cloud"]
+	if !ok || !strings.ContainsRune(value, '@') {
+		fmt.Println("host not set")
+		return
+	}
+	valarr := strings.Split(value, "@")
+	hostadd := valarr[len(valarr)-1]
+	url := fmt.Sprintf("ws://%v/cmdline", hostadd)
+	AcceptFile(url, cmd)
+}
+
+// 文件传输协议底层
+func AcceptFile(url string, val any) {
+	dl := websocket.Dialer{}
+	ws, _, err := dl.Dial(url, nil)
+	if err != nil {
+		fmt.Println("connect to ", url, " failed")
+		errorlog.Println(err)
+		ws.Close()
+		return
+	}
+	defer ws.Close()
+	resp := new(Response)
+	retry := 0
+senddata:
+	err = ws.WriteJSON(val)
+	if err != nil {
+		fmt.Println("cant write data to socket")
+		errorlog.Println(err)
+		os.Exit(-1)
+	}
+	err = ws.ReadJSON(resp)
+	if err != nil {
+		fmt.Println("accept data lost,resend data")
+		if retry < 5 {
+			fmt.Println("lost data start resend data")
+			retry++
+			goto senddata
+		} else {
+			fmt.Println("accept data lost")
+			os.Exit(1)
+		}
+	}
+	switch resp.StatusCode {
+	case 200:
+		if len(resp.Content) < 1 {
+			fmt.Println("content is null")
+			return
+		}
+		SaveFile(resp.Footer, resp.Content)
+		fmt.Println("task done")
+	case 400:
+		fmt.Println("pull file failed")
+		return
+	case 401:
+		fmt.Println("args not correct")
+		return
+	case 500:
+		fmt.Println("data lost resend data")
+		goto senddata
+	}
+}

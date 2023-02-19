@@ -59,11 +59,18 @@ func SfileStart(args []string) {
 			return
 		}
 	case "pull":
-		if len(args) < 2 {
+		switch len(args) {
+		case 2:
+			PullFile(args[1])
+		case 3:
+			if args[1] == "--private" && isprivatefilename(args[2]) {
+				CommonExchangeFile(args[2], 42)
+			} else {
+				Error()
+			}
+		default:
 			Error()
-			return
 		}
-		PullFile(args[1])
 	case "clean":
 		switch len(args) {
 		case 2:

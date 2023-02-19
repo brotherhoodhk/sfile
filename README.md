@@ -25,6 +25,7 @@
 * **get a single file from host**
     ```
     sfile pull filename
+    sfile pull --private dirname/filename
     ```
 * **remove a single file from host**
     ```
@@ -34,4 +35,8 @@
 * **remove host's private dir**
     ```
     sfile clean -r dirname
+    ```
+* **make private dir**
+    ```
+    sfile mkdir dirname
     ```

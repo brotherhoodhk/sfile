@@ -40,3 +40,14 @@
     ```
     sfile mkdir dirname
     ```
+### other function
+* **configure your remote information**
+    ```shell
+    sfile config user:authkey@hostadd
+    #example
+    sfile config jake:jake123@brotherhoodhk.org:2999
+    ```
+* **show your remote information**
+    ```shell
+    sfile config show remoteinfo
+    ```

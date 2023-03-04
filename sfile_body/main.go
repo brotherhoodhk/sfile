@@ -8,7 +8,7 @@ import (
 
 const (
 	VERSION = "2.0Lab"
-	SITE    = "https://brotherhoodhk.org"
+	SITE    = "https://brotherhoodhk.org/codelabcn/sfile"
 )
 
 var ROORPATH = os.Getenv("SFILE_HOME")
@@ -96,6 +96,13 @@ func SfileStart(args []string) {
 			return
 		}
 		CommonAgreenment(args[1], 40)
+	case "config":
+		if len(args) < 2 {
+			Error()
+			fmt.Println("learn about sfile command from here=>https://brotherhoodhk.org/codelabcn/sfile/tutorial")
+			return
+		}
+		ConfigureSfile(args[1:])
 	}
 
 }

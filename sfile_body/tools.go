@@ -99,3 +99,14 @@ func isprivatefilename(filename string) bool {
 	}
 	return true
 }
+
+// check the remote info
+func CheckRemoteInfo(target string) bool {
+	if strings.ContainsRune(target, '@') && strings.Count(target, ":") >= 2 && len(target) > 10 {
+		addarr := strings.Split(target, "@")
+		if strings.ContainsRune(addarr[0], ':') && len(addarr[0]) > 3 && strings.ContainsRune(addarr[1], ':') && len(addarr[1]) > 6 {
+			return true
+		}
+	}
+	return false
+}

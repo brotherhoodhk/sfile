@@ -178,6 +178,36 @@ func CommonAgreenment(bcmd string, act int) {
 	ConnectWithWebsocket(url, cmd)
 }
 
+// 通用指令加强版
+func CommonAgreenmentPlus(heads string, cmd map[string]string, act int) {
+	config := ParseList(siteconf)
+	value, ok := config["cloud"]
+	if !ok || !strings.ContainsRune(value, '@') {
+		fmt.Println("host not set")
+		return
+	}
+	cmde := &CommonCommand{Header: heads, Cmd: cmd, Actionid: act}
+	valarr := strings.Split(value, "@")
+	hostadd := valarr[len(valarr)-1]
+	url := fmt.Sprintf("ws://%v/cmdline", hostadd)
+	ConnectWithWebsocket(url, cmde)
+}
+
+// 通用指令协议(认证版)
+func CommonAgreenmentSecure(bcmd string, auth AuthMethod, act int) {
+	config := ParseList(siteconf)
+	value, ok := config["cloud"]
+	if !ok || !strings.ContainsRune(value, '@') {
+		fmt.Println("host not set")
+		return
+	}
+	cmd := &CommonCommand{Header: bcmd, Actionid: act, Auth: auth}
+	valarr := strings.Split(value, "@")
+	hostadd := valarr[len(valarr)-1]
+	url := fmt.Sprintf("ws://%v/cmdline", hostadd)
+	ConnectWithWebsocket(url, cmd)
+}
+
 // 通用文件传输协议
 func CommonFileUpload(heads string, content []byte, act int) {
 	sendmsg := &SendMsg{MessBox: heads, Content: content, Action: act}
@@ -255,4 +285,19 @@ senddata:
 		fmt.Println("data lost resend data")
 		goto senddata
 	}
+}
+
+// 文件传输协议(认证版)二代
+func NewFileUploadSecure(heads string, content []byte, auth AuthMethod, act int) {
+	config := ParseList(siteconf)
+	value, ok := config["cloud"]
+	if !ok || !strings.ContainsRune(value, '@') {
+		fmt.Println("host not set")
+		return
+	}
+	msg := &SendMsgPlus{Action: act, Auth: auth, Content: content, MessBox: heads}
+	valarr := strings.Split(value, "@")
+	hostadd := valarr[len(valarr)-1]
+	url := fmt.Sprintf("ws://%v/fls", hostadd)
+	ConnectWithWebsocket(url, msg)
 }

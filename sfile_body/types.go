@@ -8,6 +8,14 @@ type SendMsg struct {
 	Action  int    `json:"action"`
 	MessBox string `json:"messbox"`
 }
+
+// 客户端发向服务端格式(加强版)
+type SendMsgPlus struct {
+	Content []byte     `json:"content"`
+	Action  int        `json:"action"`
+	MessBox string     `json:"messbox"`
+	Auth    AuthMethod `json:"auth"`
+}
 type Response struct {
 	StatusCode int
 	Content    []byte
@@ -19,6 +27,8 @@ type CommonCommand struct {
 	Header   string
 	Cmd      map[string]string
 	Actionid int
+	//version 2.1
+	Auth AuthMethod
 }
 
 type RemoteMethod interface {
@@ -26,4 +36,8 @@ type RemoteMethod interface {
 }
 type RemoteResponse interface {
 	GetStatus() int
+}
+type AuthMethod struct {
+	Key     []byte
+	Usrname []byte
 }

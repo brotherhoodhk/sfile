@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/gorilla/websocket"
+	"github.com/oswaldoooo/octools/toolsbox"
 )
 
 func ParseList(path string) map[string]string {
@@ -109,4 +110,19 @@ func CheckRemoteInfo(target string) bool {
 		}
 	}
 	return false
+}
+
+// 获取认证信息
+func GetAuthInfo() (AuthMethod, bool) {
+	siteinfo := ParseList(siteconf)
+	if ve, ok := siteinfo["cloud"]; ok {
+		infoarr := strings.Split(ve, "@")
+		usrinfo := strings.Join(infoarr[:len(infoarr)-1], "@")
+		usrinfoarr := strings.Split(usrinfo, ":")
+		usrname := usrinfoarr[0]
+		pwd := strings.Join(usrinfoarr[1:], ":")
+		auth := AuthMethod{Usrname: []byte(usrname), Key: toolsbox.Sha256([]byte(pwd))}
+		return auth, true
+	}
+	return AuthMethod{}, false
 }

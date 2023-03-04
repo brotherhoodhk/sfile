@@ -103,6 +103,10 @@ func SfileStart(args []string) {
 			return
 		}
 		ConfigureSfile(args[1:])
+	case "test":
+		// Test()
+		// TestMkdir()
+		TestUploadPrivateFile()
 	}
 
 }

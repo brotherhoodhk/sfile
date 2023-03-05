@@ -50,3 +50,18 @@ func TestUploadPrivateFile() {
 		NewFileUploadSecure("testdir/go.mod", buff[:n], auth, 941)
 	}
 }
+func TestPullFile() {
+	if auth, ok := GetAuthInfo(); ok {
+		CommonExchangeFilePlus("testdir/go.mod", auth, 942)
+	}
+}
+func TestDeleteDir() {
+	if auth, ok := GetAuthInfo(); ok {
+		CommonAgreenmentSecure("testdir", auth, 943)
+	}
+}
+func TestDeleteFile() {
+	if auth, ok := GetAuthInfo(); ok {
+		CommonAgreenmentSecure("testdir/go.mod", auth, 9431)
+	}
+}

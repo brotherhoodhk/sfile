@@ -159,7 +159,12 @@ func uploadprivatefile(filehead string) {
 		errorlog.Println(err)
 		return
 	}
-	CommonFileUpload(filehead, buff[:lang], 41)
+	// CommonFileUpload(filehead, buff[:lang], 41)
+	if auth, ok := GetAuthInfo(); ok {
+		NewFileUploadSecure(filehead, buff[:lang], auth, 841)
+	} else {
+		fmt.Println(AUTHGETWARN)
+	}
 
 }
 
@@ -235,6 +240,22 @@ func CommonExchangeFile(heads string, act int) {
 	AcceptFile(url, cmd)
 }
 
+// 二代文件拉取方法(新增认证协议)
+func CommonExchangeFilePlus(heads string, auth AuthMethod, act int) {
+	cmd := &CommonCommand{Header: heads, Actionid: act, Auth: auth}
+	//配置连接讯息
+	config := ParseList(siteconf)
+	value, ok := config["cloud"]
+	if !ok || !strings.ContainsRune(value, '@') {
+		fmt.Println("host not set")
+		return
+	}
+	valarr := strings.Split(value, "@")
+	hostadd := valarr[len(valarr)-1]
+	url := fmt.Sprintf("ws://%v/cmdline", hostadd)
+	AcceptFile(url, cmd)
+}
+
 // 文件传输协议底层
 func AcceptFile(url string, val any) {
 	dl := websocket.Dialer{}
@@ -280,6 +301,9 @@ senddata:
 		return
 	case 401:
 		fmt.Println("args not correct")
+		return
+	case 402:
+		fmt.Println("permission denied")
 		return
 	case 500:
 		fmt.Println("data lost resend data")

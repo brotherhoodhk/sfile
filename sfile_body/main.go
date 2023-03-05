@@ -10,6 +10,9 @@ const (
 	VERSION = "2.0Lab"
 	SITE    = "https://brotherhoodhk.org/codelabcn/sfile"
 )
+const (
+	AUTHGETWARN = "failed to get authentication"
+)
 
 var ROORPATH = os.Getenv("SFILE_HOME")
 var softwareinfo = "version: " + VERSION + "\nour site: " + SITE
@@ -64,7 +67,12 @@ func SfileStart(args []string) {
 			PullFile(args[1])
 		case 3:
 			if args[1] == "--private" && isprivatefilename(args[2]) {
-				CommonExchangeFile(args[2], 42)
+				// CommonExchangeFile(args[2], 42)
+				if auth, ok := GetAuthInfo(); ok {
+					CommonExchangeFilePlus(args[2], auth, 842)
+				} else {
+					fmt.Println(AUTHGETWARN)
+				}
 			} else {
 				Error()
 			}
@@ -78,7 +86,12 @@ func SfileStart(args []string) {
 		case 3:
 			if args[1] == "--private" {
 				if strings.ContainsRune(args[2], '/') {
-					CommonAgreenment(args[2], 431)
+					// CommonAgreenment(args[2], 431)
+					if auth, ok := GetAuthInfo(); ok {
+						CommonAgreenmentSecure(args[2], auth, 8431)
+					} else {
+						fmt.Println(AUTHGETWARN)
+					}
 				} else {
 					fmt.Println("filename is not correct")
 				}
@@ -86,7 +99,12 @@ func SfileStart(args []string) {
 				if strings.ContainsRune(args[2], '/') {
 					fmt.Println("your dirname is not correct")
 				} else {
-					CommonAgreenment(args[2], 43)
+					// CommonAgreenment(args[2], 43)
+					if auth, ok := GetAuthInfo(); ok {
+						CommonAgreenmentSecure(args[2], auth, 843)
+					} else {
+						fmt.Println(AUTHGETWARN)
+					}
 				}
 			}
 		}
@@ -95,7 +113,12 @@ func SfileStart(args []string) {
 			Error()
 			return
 		}
-		CommonAgreenment(args[1], 40)
+		// CommonAgreenment(args[1], 40)
+		if auth, ok := GetAuthInfo(); ok {
+			CommonAgreenmentSecure(args[1], auth, 840)
+		} else {
+			fmt.Println(AUTHGETWARN)
+		}
 	case "config":
 		if len(args) < 2 {
 			Error()
@@ -105,8 +128,11 @@ func SfileStart(args []string) {
 		ConfigureSfile(args[1:])
 	case "test":
 		// Test()
-		// TestMkdir()
+		TestMkdir()
 		TestUploadPrivateFile()
+		TestPullFile()
+		TestDeleteFile()
+		TestDeleteDir()
 	}
 
 }

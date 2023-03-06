@@ -2,6 +2,8 @@ package sfile
 
 import (
 	"fmt"
+	"io/fs"
+	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -32,7 +34,8 @@ func SfileStart(args []string) {
 			Error()
 			return
 		}
-		AddFile(args[1])
+		// AddFile(args[1])
+		AddfileInterface("", args[1:]...)
 	case "list":
 		ShowList()
 	case "get":
@@ -126,6 +129,12 @@ func SfileStart(args []string) {
 			return
 		}
 		ConfigureSfile(args[1:])
+	case "clear":
+		if len(args) == 1 {
+			ClearLocalFS()
+		} else {
+			Error()
+		}
 	case "test":
 		// Test()
 		TestMkdir()
@@ -153,6 +162,7 @@ func AddFile(filename string) {
 		fmt.Println("file" + filename + " dont exist")
 		os.Exit(1)
 	}
+	filename = getfilename(filename)
 	if _, ok := list[filename]; !ok {
 		list[filename] = filepath
 	} else {
@@ -184,6 +194,39 @@ func AddFile(filename string) {
 		f.Close()
 	}
 	FormatList(list, filemap)
+}
+
+// the outside addfile
+func AddfileInterface(basename string, dirname ...string) {
+	var fe fs.FileInfo
+	var fearr []fs.FileInfo
+	var err error
+	for _, v := range dirname {
+		basename += v + "/"
+		fe, err = os.Stat(v)
+		if err != nil {
+			fmt.Println(v, "is not exist")
+			errorlog.Println(err)
+		} else {
+			if fe.IsDir() { //if the name is directory name
+				fearr, err = ioutil.ReadDir(v)
+				if err != nil {
+					fmt.Println("read directory", v, "failed")
+					errorlog.Println(err)
+				} else {
+					for _, v := range fearr {
+						if v.IsDir() {
+							AddfileInterface(basename, v.Name())
+						} else {
+							AddFile(basename + v.Name())
+						}
+					}
+				}
+			} else {
+				AddFile(v)
+			}
+		}
+	}
 }
 
 // show all local file system

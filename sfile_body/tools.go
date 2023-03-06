@@ -126,3 +126,21 @@ func GetAuthInfo() (AuthMethod, bool) {
 	}
 	return AuthMethod{}, false
 }
+
+// 从路径中取得文件名
+func getfilename(originname string) (finalname string) {
+	if strings.ContainsRune(originname, '/') {
+		namearr := strings.Split(originname, "/")
+		finalname = namearr[len(namearr)-1]
+	} else {
+		finalname = originname
+	}
+	return
+}
+
+// 清除本地记录的所有链接
+func ClearLocalFS() {
+	filelist := ParseList(filemap)
+	filelist = make(map[string]string)
+	FormatList(filelist, filemap)
+}

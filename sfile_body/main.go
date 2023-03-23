@@ -9,15 +9,15 @@ import (
 )
 
 const (
-	VERSION = "2.0Lab"
-	SITE    = "https://brotherhoodhk.org/codelabcn/sfile"
+	VERSION      = "2.0Lab"
+	SITE         = "https://brotherhoodhk.org/codelabcn/sfile"
+	softwareinfo = "version: " + VERSION + "\nour site: " + SITE
 )
 const (
 	AUTHGETWARN = "failed to get authentication"
 )
 
 var ROORPATH = os.Getenv("SFILE_HOME")
-var softwareinfo = "version: " + VERSION + "\nour site: " + SITE
 var LOGPATH = ROORPATH + "/log/"
 var errorlog = LogInit("error")
 var filemap = ROORPATH + "/conf/filemap.cnf"

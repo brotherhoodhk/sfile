@@ -1,20 +1,24 @@
 ## **SFILE DOCUMENT**
-### basic function
+### basic function,[**official site**](https://brotherhoodhk.org/codelab/sfile)
 * **put file into filesystem(if file exists in filesystem,it will update)**
     ```
     sfile add filename
     ```
-* **remove file from filesystem**
+* **remove file from virtual filesystem**
     ```
     sfile rm filename
     ```
-* **pull file from filesystem**
+* **pull file from virtual filesystem**
     ```
     sfile get filename
     ```
-* **list all files in filesystem**
+* **list all files in virtual filesystem**
     ```
     sfile list
+    ```
+* **clear local virtual filesystem**
+    ```
+    sfile clear
     ```
 ### remote function
 * **upload a single file to host**

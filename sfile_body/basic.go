@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sfile/sfile_body/model"
 
 	"github.com/gorilla/websocket"
 )
@@ -56,6 +57,13 @@ senddata:
 		fmt.Println("permission denied")
 	case 500:
 		goto senddata
+	default:
+		//debugline
+		if parser, ok := model.SpecialParser[resp.GetStatus()]; ok {
+			parser(resp.GetFooter(), resp.GetContent())
+		} else {
+			fmt.Println("unknown response status")
+		}
 	}
 }
 func (s *SendMsgPlus) todo(con *websocket.Conn, resp RemoteResponse) {

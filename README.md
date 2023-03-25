@@ -45,6 +45,10 @@
     sfile mkdir dirname
     ```
 ### other function
+* **search file in remote filesystem**
+    ```shell
+    sfile search filename
+    ```
 * **configure your remote information**
     ```shell
     sfile config user:authkey@hostadd

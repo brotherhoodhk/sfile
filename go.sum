@@ -2,3 +2,5 @@ github.com/gorilla/websocket v1.5.0 h1:PPwGk2jz7EePpoHN/+ClbZu8SPxiqlu12wZP/3sWm
 github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/oswaldoooo/octools v0.0.0-20230225030639-d317fadd7ece h1:N0ee9tdwxpq0jPvjtKQYmJHBvPKrJ41Wg82ed78sHHU=
 github.com/oswaldoooo/octools v0.0.0-20230225030639-d317fadd7ece/go.mod h1:RCEYExIS71OUGjKdwyBhuKOIeHMjcBQxL6ErFpFNw0o=
+github.com/oswaldoooo/octools v0.0.0-20230324131803-423d1fd488f2 h1:0nvh3K/A+bWDMDYr4adCH0Dxi/ZbUywObRY4UbKx5q0=
+github.com/oswaldoooo/octools v0.0.0-20230324131803-423d1fd488f2/go.mod h1:jnp2f+WsyMVyvMqJ0oyHoghp+RWRN/9CwR4xgsq76LE=

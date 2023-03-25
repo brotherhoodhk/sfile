@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin_conf>
+    <plugin classname="respstatus" name="respparser"/>
+</plugin_conf>

@@ -36,8 +36,19 @@ type RemoteMethod interface {
 }
 type RemoteResponse interface {
 	GetStatus() int
+	GetFooter() string
+	GetContent() []byte
 }
 type AuthMethod struct {
 	Key     []byte
 	Usrname []byte
+}
+
+func (s *Response) GetContent() (res []byte) {
+	res = s.Content
+	return
+}
+func (s *Response) GetFooter() (res string) {
+	res = s.Footer
+	return
 }

@@ -135,6 +135,12 @@ func SfileStart(args []string) {
 		} else {
 			Error()
 		}
+	case "search":
+		if len(args) == 2 {
+			search(args[1])
+		} else {
+			Error()
+		}
 	case "test":
 		// Test()
 		TestMkdir()

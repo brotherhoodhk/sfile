@@ -1,0 +1,16 @@
+[error]2023/05/24 07:23:33 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:23:42 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:23:48 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:24:10 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:24:10 main.go:215: stat othertest: no such file or directory
+[error]2023/05/24 07:24:32 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:25:45 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:25:52 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:25:58 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:26:00 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:26:17 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:26:25 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:26:37 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:26:44 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:27:11 prepare.go:66: read 1 plugin info,bad info 0
+[error]2023/05/24 07:27:14 prepare.go:66: read 1 plugin info,bad info 0

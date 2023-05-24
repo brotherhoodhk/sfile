@@ -1,5 +1,19 @@
 ## **SFILE DOCUMENT**
 ### basic function,[**official site**](https://brotherhoodhk.org/codelab/sfile)
+### **Install and Uninstall**
+```shell
+#install
+wget https://brotherhoodhk.org/products/shells/sfile_installer.sh
+bash sfile_installer.sh
+source /etc/profile
+
+#uninstall
+wget https://brotherhoodhk.org/products/shells/sfile_uninstall.sh
+bash sfile_uninstall.sh
+source /etc/profile
+```
+
+
 * **put file into filesystem(if file exists in filesystem,it will update)**
     ```
     sfile add filename

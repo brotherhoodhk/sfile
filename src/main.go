@@ -1,11 +1,12 @@
+/*
+Copyright © 2023 Oswaldo Cho <oswaldohome007@gmail.com>
+*/
 package main
 
-import "os"
 import (
-	"sfile/sfile_body"
+	"sfile/cmd"
 )
 
 func main() {
-	args := os.Args[1:]
-	sfile.SfileStart(args)
+	cmd.Execute()
 }

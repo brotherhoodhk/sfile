@@ -135,7 +135,7 @@ func CleanFile(filename string) {
 	url := fmt.Sprintf("ws://%v/cmdline", hostadd)
 	ConnectWithWebsocket(url, cmd)
 }
-func uploadprivatefile(filehead string) {
+func Uploadprivatefile(filehead string) {
 	filearr := strings.Split(filehead, "/")
 	if len(filearr) != 2 || len(filearr[0]) < 1 || len(filearr[1]) < 1 {
 		//命名不符合 dirname/filename规范

@@ -90,7 +90,7 @@ func ConnectWithWebsocket(url string, rmd RemoteMethod) {
 	resp := new(Response)
 	rmd.todo(ws, resp)
 }
-func isprivatefilename(filename string) bool {
+func Isprivatefilename(filename string) bool {
 	if !strings.ContainsRune(filename, '/') {
 		return false
 	}

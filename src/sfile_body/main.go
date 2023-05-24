@@ -57,7 +57,7 @@ func SfileStart(args []string) {
 		case 3:
 			if args[1] == "--private" {
 				if strings.ContainsRune(args[2], '/') {
-					uploadprivatefile(args[2])
+					Uploadprivatefile(args[2])
 				}
 			}
 		default:
@@ -69,7 +69,7 @@ func SfileStart(args []string) {
 		case 2:
 			PullFile(args[1])
 		case 3:
-			if args[1] == "--private" && isprivatefilename(args[2]) {
+			if args[1] == "--private" && Isprivatefilename(args[2]) {
 				// CommonExchangeFile(args[2], 42)
 				if auth, ok := GetAuthInfo(); ok {
 					CommonExchangeFilePlus(args[2], auth, 842)
@@ -137,7 +137,7 @@ func SfileStart(args []string) {
 		}
 	case "search":
 		if len(args) == 2 {
-			search(args[1])
+			Search(args[1])
 		} else {
 			Error()
 		}

@@ -70,7 +70,6 @@ func SfileStart(args []string) {
 			PullFile(args[1])
 		case 3:
 			if args[1] == "--private" && Isprivatefilename(args[2]) {
-				// CommonExchangeFile(args[2], 42)
 				if auth, ok := GetAuthInfo(); ok {
 					CommonExchangeFilePlus(args[2], auth, 842)
 				} else {
@@ -89,7 +88,6 @@ func SfileStart(args []string) {
 		case 3:
 			if args[1] == "--private" {
 				if strings.ContainsRune(args[2], '/') {
-					// CommonAgreenment(args[2], 431)
 					if auth, ok := GetAuthInfo(); ok {
 						CommonAgreenmentSecure(args[2], auth, 8431)
 					} else {
@@ -102,7 +100,6 @@ func SfileStart(args []string) {
 				if strings.ContainsRune(args[2], '/') {
 					fmt.Println("your dirname is not correct")
 				} else {
-					// CommonAgreenment(args[2], 43)
 					if auth, ok := GetAuthInfo(); ok {
 						CommonAgreenmentSecure(args[2], auth, 843)
 					} else {
@@ -116,7 +113,6 @@ func SfileStart(args []string) {
 			Error()
 			return
 		}
-		// CommonAgreenment(args[1], 40)
 		if auth, ok := GetAuthInfo(); ok {
 			CommonAgreenmentSecure(args[1], auth, 840)
 		} else {
@@ -155,6 +151,8 @@ func Error() {
 	fmt.Println("not this command")
 }
 
+var Replace bool
+
 // put file into file system
 func AddFile(filename string) {
 	list := ParseList(filemap)
@@ -169,7 +167,7 @@ func AddFile(filename string) {
 		os.Exit(1)
 	}
 	filename = getfilename(filename)
-	if _, ok := list[filename]; !ok {
+	if _, ok := list[filename]; !ok || Replace {
 		list[filename] = filepath
 	} else {
 		var buff = make([]byte, wrbuffsize)

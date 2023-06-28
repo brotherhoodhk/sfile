@@ -159,7 +159,6 @@ func Uploadprivatefile(filehead string) {
 		errorlog.Println(err)
 		return
 	}
-	// CommonFileUpload(filehead, buff[:lang], 41)
 	if auth, ok := GetAuthInfo(); ok {
 		NewFileUploadSecure(filehead, buff[:lang], auth, 841)
 	} else {

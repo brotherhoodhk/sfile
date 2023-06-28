@@ -16,6 +16,7 @@ const (
 )
 
 var wrbuffsize = 100 * MB
+var Alias string = ""
 
 func LogInit(logname string) *log.Logger {
 	f, err := os.OpenFile(LOGPATH+logname+".log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
